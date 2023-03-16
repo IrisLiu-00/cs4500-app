@@ -5,10 +5,10 @@ type ArtResponse = {
   data: ArtInfo[];
 };
 
-export function useStories() {
+export function useStories(query: string) {
   // TODO: paging and limits, does this need to be SWR??
   // probably omit the extra fields from query
-  const { data, error, isLoading } = useSWR(`/stories`, fetcher);
+  const { data, error, isLoading } = useSWR(`/stories/${query}`, () => fetcher(query));
   data?.data.forEach((art) => {
     art.imageUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
     art.lines = 22;
@@ -22,7 +22,7 @@ export function useStories() {
   };
 }
 
-const fetcher: Fetcher<ArtResponse, string> = () =>
+const fetcher: Fetcher<ArtResponse, string> = (query: string | null) =>
   fetch(
-    'https://api.artic.edu/api/v1/artworks/search?q=cats&query[term][is_public_domain]=true&fields=id,image_id,thumbnail,title,artist_display,date_display'
+    `https://api.artic.edu/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&fields=id,image_id,thumbnail,title,artist_display,date_display`
   ).then((r) => r.json());

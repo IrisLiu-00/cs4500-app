@@ -7,6 +7,8 @@ import { AccountCircle, LibraryBooks, Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Input, InputAdornment, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useState } from 'react';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const StyledToolbar = styled(Toolbar)`
   justify-content: space-between;
@@ -41,18 +43,35 @@ const StyledAdornment = styled(InputAdornment)`
 // TODO: search behavior
 
 function Nav() {
+  const navigate = useNavigate();
+  const [searchString, setSearchString] = useState('');
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setSearchString('');
+      navigate({
+        pathname: '/search',
+        search: `?${createSearchParams({
+          criteria: searchString,
+        })}`,
+      });
+    }
+  };
 
   return (
     <AppBar position="static">
       <StyledToolbar>
         <StyledTitle variant="h6" noWrap component="a" href="/">
-          <LibraryBooks fontSize="large" sx={{mr: 1}}/>
+          <LibraryBooks fontSize="large" sx={{ mr: 1 }} />
           {matches && 'STORYLINE'}
         </StyledTitle>
         <StyledSearch
           placeholder="Search stories"
+          value={searchString}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)}
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleSearch(e)}
           startAdornment={
             <StyledAdornment position="start">
               <Search />
