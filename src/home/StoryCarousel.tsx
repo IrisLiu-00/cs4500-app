@@ -31,7 +31,7 @@ export const StoryCarousel = () => {
       <Typography variant="h4">Recent Stories</Typography>
       {user && (
         <Typography variant="body1">
-          {user.role == 'LEADER' ? 'Stories your team has updated' : "Stories you've added to"}
+          {user.role === 'LEADER' ? 'Stories your team has updated' : "Stories you've added to"}
         </Typography>
       )}
       <ChartContainer>

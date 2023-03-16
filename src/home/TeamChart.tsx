@@ -32,7 +32,7 @@ export function TeamChart() {
       },
     ],
   };
-  const place = teams ? teams.findIndex((team) => team.name == user?.teamId) + 1 : undefined;
+  const place = teams ? teams.findIndex((team) => team.name === user?.teamId) + 1 : undefined;
   return (
     <div>
       <Typography variant="h4">

@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { ArtInfo } from '../types';
-import { Box, CardActionArea, styled } from '@mui/material';
+import { CardActionArea, styled } from '@mui/material';
 
 const StyledActionArea = styled(CardActionArea)`
   flex-grow: 1;

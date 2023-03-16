@@ -1,10 +1,6 @@
 import useSWR, { Fetcher } from 'swr';
 import { Team } from '../types';
 
-type TeamResponse = {
-  data: Team[]
-}
-
 export function useTeams() {
   // TODO: paging and limits, does this need to be SWR??
   // probably omit the extra fields from query
