@@ -21,9 +21,9 @@ export function TeamChart() {
       },
     },
   };
-  console.log(teams)
+  console.log(teams);
   const data = {
-    labels: teams?.map((team) => team.name),
+    labels: teams?.map((team) => team.id),
     datasets: [
       {
         label: 'Team Points',
@@ -32,18 +32,16 @@ export function TeamChart() {
       },
     ],
   };
-  const place = teams ? teams.findIndex((team) => team.name === user?.teamId) + 1 : undefined;
+  const place = teams ? teams.findIndex((team) => team.id === user?.teamId) + 1 : undefined;
   return (
     <div>
-      <Typography variant="h4">
-        Team Ranking
-      </Typography>
+      <Typography variant="h4">Team Ranking</Typography>
       {place !== undefined && (
         <Typography variant="body1">
           Your team, <BoldText display="inline">{user?.teamId}</BoldText>, is ranked #{place}
         </Typography>
       )}
-      <Bar options={options} data={data} style={{marginTop: '20px'}}/>
+      <Bar options={options} data={data} style={{ marginTop: '20px' }} />
     </div>
   );
 }

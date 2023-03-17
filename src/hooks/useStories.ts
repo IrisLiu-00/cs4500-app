@@ -1,8 +1,8 @@
 import useSWR, { Fetcher } from 'swr';
-import { ArtInfo } from '../types';
+import { StorySummary } from '../types';
 
-type ArtResponse = {
-  data: ArtInfo[];
+type StoryResponse = {
+  data: StorySummary[];
 };
 
 export function useStories(query: string) {
@@ -11,7 +11,7 @@ export function useStories(query: string) {
   const { data, error, isLoading } = useSWR(`/stories/${query}`, () => fetcher(query));
   data?.data.forEach((art) => {
     art.imageUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
-    art.lines = 22;
+    art.length = 22;
     art.updatedAt = new Date(2023, 3, 21);
   });
 
@@ -22,7 +22,7 @@ export function useStories(query: string) {
   };
 }
 
-const fetcher: Fetcher<ArtResponse, string> = (query: string | null) =>
+const fetcher: Fetcher<StoryResponse, string> = (query: string | null) =>
   fetch(
     `https://api.artic.edu/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&fields=id,image_id,thumbnail,title,artist_display,date_display`
   ).then((r) => r.json());

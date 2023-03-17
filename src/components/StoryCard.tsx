@@ -2,7 +2,7 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { ArtInfo } from '../types';
+import { StorySummary } from '../types';
 import { CardActionArea, styled } from '@mui/material';
 
 const StyledActionArea = styled(CardActionArea)`
@@ -17,7 +17,7 @@ const StyledCardContent = styled(CardContent)`
 `;
 
 // TODO: display number of comments, latest activity time?
-export const StoryCard = ({ artInfo }: { artInfo: ArtInfo }) => {
+export const StoryCard = ({ artInfo }: { artInfo: StorySummary }) => {
   return (
     <Card sx={{ height: '360px', display: 'flex', flexDirection: 'column' }}>
       <StyledActionArea href={`/details/${artInfo.id}`}>
@@ -27,7 +27,7 @@ export const StoryCard = ({ artInfo }: { artInfo: ArtInfo }) => {
             {truncate(artInfo.title, 30)}
           </Typography>
           <div>
-            <Typography>{artInfo.lines} Lines</Typography>
+            <Typography>{artInfo.length} Lines</Typography>
             <Typography>Updated {artInfo.updatedAt.toLocaleDateString()}</Typography>
           </div>
         </StyledCardContent>
@@ -36,6 +36,6 @@ export const StoryCard = ({ artInfo }: { artInfo: ArtInfo }) => {
   );
 };
 
-function truncate(text: string, length: number) : string {
+function truncate(text: string, length: number): string {
   return text.length > length ? text.slice(0, length) + '...' : text;
 }

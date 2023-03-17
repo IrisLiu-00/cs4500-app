@@ -1,27 +1,43 @@
-export type ArtInfo = {
-  thumbnail: { alt_text: string };
-  artist_display: string;
-  date_display: string;
+export type UserPartial = {
   id: number;
-  image_id: string;
-  title: string;
-  imageUrl: string;
-  updatedAt: Date;
-  lines: number;
+  teamId: string;
+  displayName: string;
 };
 
+export type Line = {
+  text: string;
+  timestamp: Date;
+  user: UserPartial;
+};
+
+export type StoryPartial = {
+  id: number;
+  image_id: string;
+  imageUrl: string;
+  title: string;
+  thumbnail: { alt_text: string };
+};
+
+export interface StorySummary extends StoryPartial {
+  updatedAt: Date;
+  length: number;
+}
+
+export interface StoryDetail extends StoryPartial {
+  artist_display: string;
+  date_display: string;
+  lines: Line[];
+}
+
 export type Team = {
-  name: string;
+  id: string;
   color: string;
   description: string;
   score: number;
 };
 
-export type User = {
+export interface User extends UserPartial {
   role: 'WRITER' | 'LEADER';
-  id: number;
   email: string;
   password: string;
-  teamId: string;
-  displayName: string;
 }
