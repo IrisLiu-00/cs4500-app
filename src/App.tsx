@@ -9,6 +9,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { SearchPage } from './search/SearchPage';
 import { DetailsPage } from './details/DetailsPage';
+import { ProfilePage } from './profile/ProfilePage';
 
 const theme = createTheme();
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/details/:storyId" element={<DetailsPage />} />
+          <Route path="/profile/:profileId?" element={<ProfilePage />} />
         </Routes>
       </Router>
     </ThemeProvider>

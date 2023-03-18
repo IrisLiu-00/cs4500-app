@@ -21,7 +21,6 @@ export function TeamChart() {
       },
     },
   };
-  console.log(teams);
   const data = {
     labels: teams?.map((team) => team.id),
     datasets: [

@@ -1,4 +1,4 @@
-import { Button, ListItem, styled, TextField, Tooltip, Typography } from '@mui/material';
+import { Button, ListItem, styled, TextField, Tooltip, Typography, Link } from '@mui/material';
 import { useState } from 'react';
 import { useUser } from '../hooks/useUser';
 
@@ -8,6 +8,7 @@ const Item = styled(ListItem)`
 `;
 const FormContainer = styled('div')`
   width: 100%;
+  margin-bottom: 10px;
 `;
 const LineField = styled(TextField)`
   width: 100%;
@@ -30,6 +31,14 @@ export const LineForm = () => {
         </Tooltip>
       ) : (
         <FormFields disabled={disabled} />
+      )}
+      {!user && (
+        <Typography>
+          <Link href="/login" underline="hover">
+            Log in
+          </Link>{' '}
+          to post a Line!
+        </Typography>
       )}
     </Item>
   );

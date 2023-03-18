@@ -1,5 +1,6 @@
 import { styled, ListItem, Box, Button, Typography, Stack, Popover, Divider } from '@mui/material';
 import { useState } from 'react';
+import { useTeam } from '../hooks/useTeams';
 import { useUser } from '../hooks/useUser';
 import { Line } from '../types';
 
@@ -17,7 +18,6 @@ const ProfileLink = styled(Button)`
   text-transform: none;
   :hover {
     background: none;
-    color: rgb(14 83 151);
   }
 `;
 const PopupButtons = styled(Stack)`
@@ -26,6 +26,7 @@ const PopupButtons = styled(Stack)`
 
 export const LineItem = ({ line }: { line: Line }) => {
   const { user } = useUser();
+  const team = useTeam(line.user.teamId);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,8 +53,10 @@ export const LineItem = ({ line }: { line: Line }) => {
             </Button>
           )}
           <LineDetails>
-            <ProfileLink href={`/profile/${line.user.id}`}>{line.user.displayName}</ProfileLink>-{' '}
-            {line.timestamp.toLocaleDateString()}
+            <ProfileLink href={`/profile/${line.user.id}`} sx={{ color: team?.color }}>
+              {line.user.displayName}
+            </ProfileLink>
+            - {line.timestamp.toLocaleDateString()}
           </LineDetails>
         </Stack>
         <Popover

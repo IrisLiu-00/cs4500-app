@@ -19,7 +19,6 @@ export const DetailsPage = () => {
   const theme = useTheme();
   const overMd = useMediaQuery(theme.breakpoints.up('md'));
 
-  const { user } = useUser();
   const { storyId } = useParams();
   const { story, isError } = useStoryDetail(storyId);
 

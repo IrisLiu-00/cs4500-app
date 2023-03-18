@@ -34,6 +34,7 @@ export type Team = {
   color: string;
   description: string;
   score: number;
+  leadId: number;
 };
 
 export interface User extends UserPartial {

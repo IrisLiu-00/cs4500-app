@@ -2,6 +2,8 @@ import useSWR, { Fetcher } from 'swr';
 import { User } from '../types';
 
 export function useUser() {
+  const fetcher: Fetcher<User | null, string> = () => Promise.resolve(member);
+
   const { data, error, isLoading } = useSWR(`/user`, fetcher);
 
   return {
@@ -10,6 +12,18 @@ export function useUser() {
     isError: error,
   };
 }
+
+export function useUserById(userId?: string) {
+  const { data, error, isLoading } = useSWR(`/user/${userId}`, () => Promise.resolve(lead));
+
+  return {
+    user: data,
+    isLoading,
+    isError: error,
+  };
+}
+
+// TODO: backend should not return privates of other users
 
 const lead: User = {
   role: 'LEADER',
@@ -28,5 +42,3 @@ const member: User = {
   teamId: 'The Panthers',
   displayName: 'userMember',
 };
-
-const fetcher: Fetcher<User | null, string> = () => Promise.resolve(member);
