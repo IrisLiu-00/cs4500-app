@@ -29,5 +29,4 @@ const member: User = {
   displayName: 'userMember',
 };
 
-const fetcher: Fetcher<User, string> = () =>
-  Promise.resolve(lead);
+const fetcher: Fetcher<User | null, string> = () => Promise.resolve(member);

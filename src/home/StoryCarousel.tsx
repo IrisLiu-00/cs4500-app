@@ -28,10 +28,10 @@ export const StoryCarousel = () => {
 
   return (
     <>
-      <Typography variant="h4">Recent Stories</Typography>
+      <Typography variant="h4">Recent Activity</Typography>
       {user && (
         <Typography variant="body1">
-          {user.role === 'LEADER' ? 'Stories your team has updated' : "Stories you've added to"}
+          {user?.role === 'LEADER' ? 'StoryLines your team has updated' : "StoryLines you've added to"}
         </Typography>
       )}
       <ChartContainer>

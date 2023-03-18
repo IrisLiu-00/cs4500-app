@@ -40,7 +40,7 @@ const StyledAdornment = styled(InputAdornment)`
   color: inherit;
 `;
 
-// TODO: search behavior
+// TODO: profile should have login/logout dropdown
 
 function Nav() {
   const navigate = useNavigate();

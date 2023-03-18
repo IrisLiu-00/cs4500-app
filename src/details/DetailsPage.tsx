@@ -1,33 +1,18 @@
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  Stack,
-  styled,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Container, Divider, Grid, List, styled, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Nav from '../components/Nav';
 import { useStoryDetail } from '../hooks/useStoryDetail';
 import { useUser } from '../hooks/useUser';
+import { LineForm } from './LineForm';
+import { LineItem } from './LineItem';
 
 const Image = styled('img')`
   margin-bottom: 20px;
 `;
-
 const StyledGrid = styled(Grid)`
   @media (max-width: 900px) {
     margin: 0;
   }
-`;
-const LineItem = styled(ListItem)`
-  flex-direction: column;
-  align-items: flex-start;
 `;
 
 export const DetailsPage = () => {
@@ -60,19 +45,11 @@ export const DetailsPage = () => {
                 <Image src={story?.imageUrl} alt={story?.thumbnail.alt_text} width="100%" />
                 {!overMd && <Description />}
                 <List>
+                  <Divider />
                   {story?.lines.map((line) => (
-                    <>
-                      <LineItem key={`${line.user.id}+${line.timestamp.toString()}`}>
-                        <Typography variant="body1" gutterBottom>
-                          {line.text}
-                        </Typography>
-                        <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
-                          {line.user.displayName} - {line.timestamp.toLocaleString()}
-                        </Stack>
-                      </LineItem>
-                      <Divider />
-                    </>
+                    <LineItem line={line} key={`${line.user.id}+${line.timestamp.toString()}`} />
                   ))}
+                  <LineForm />
                 </List>
               </Grid>
               {overMd && (
@@ -91,13 +68,3 @@ export const DetailsPage = () => {
     </>
   );
 };
-
-/**
-Image, info about the art
-Comments -  with username, team, color
-Username links to profile
-Writer: add line
-Lead: remove inappropriate comments
-Anon: trying to comment leads to login page
-
- */
