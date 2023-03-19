@@ -1,8 +1,10 @@
-import { Box, Divider, Grid, List, ListItem, ListItemButton, styled, Typography } from '@mui/material';
+import { Box, Divider, Grid, List, ListItem, ListItemButton, Stack, styled, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useTeam } from '../hooks/useTeams';
 import { useUser, useUserById } from '../hooks/useUser';
 import { EditPanel } from './EditPanel';
+import { EditTeamPanel } from './EditTeamPanel';
+import { ColorSwatch } from './Styled';
 const BoldText = styled('span')`
   font-weight: bold;
 `;
@@ -27,6 +29,7 @@ export const LeaderProfile = () => {
       displayName: 'otherMember',
     },
   ];
+  const canEdit = user?.id === profile?.id;
 
   return (
     <Grid container spacing={4}>
@@ -40,9 +43,20 @@ export const LeaderProfile = () => {
         <Typography>
           Score: <BoldText>{team?.score}</BoldText> points per member
         </Typography>
-        {user?.id === profile?.id && <EditPanel />}
+        {canEdit && <EditPanel />}
       </Grid>
       <Grid item xs={12} md={9}>
+        {canEdit ? (
+          <EditTeamPanel />
+        ) : (
+          <Stack>
+            <Typography variant="h6" gutterBottom>
+              About this team:
+            </Typography>
+            <Typography>{team?.description}</Typography>
+            <ColorSwatch style={{ backgroundColor: team?.color }} />
+          </Stack>
+        )}
         <Typography>Team Members</Typography>
         <List>
           <Divider />
