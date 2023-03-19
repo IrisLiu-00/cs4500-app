@@ -2,7 +2,7 @@ import useSWR, { Fetcher } from 'swr';
 import { User } from '../types';
 
 export function useUser() {
-  const fetcher: Fetcher<User | null, string> = () => Promise.resolve(lead);
+  const fetcher: Fetcher<User | null, string> = () => Promise.resolve(null);
 
   const { data, error, isLoading } = useSWR(`/user`, fetcher);
 

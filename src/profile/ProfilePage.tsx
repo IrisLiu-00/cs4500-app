@@ -5,10 +5,11 @@ import { useUser, useUserById } from '../hooks/useUser';
 import { LeaderProfile } from './LeaderProfile';
 import { MemberProfile } from './MemberProfile';
 
+// TODO: logout behavior
 export const ProfilePage = () => {
   const { user } = useUser();
   const { profileId } = useParams();
-  const { user: profile, isError } = useUserById(profileId);
+  const { user: profile, isError } = useUserById(profileId || user?.id.toString());
   return (
     <>
       <Nav />
@@ -18,9 +19,12 @@ export const ProfilePage = () => {
             <LoginPrompt />
           ) : (
             <>
-              <Typography variant="h4" gutterBottom>
-                Profile
-              </Typography>
+              <Stack flexDirection="row" justifyContent="space-between">
+                <Typography variant="h4" gutterBottom>
+                  Profile
+                </Typography>
+                {user?.id === profile?.id && <Button>Log Out</Button>}
+              </Stack>
               {!isError ? (
                 profile?.role === 'LEADER' ? (
                   <LeaderProfile />
