@@ -1,10 +1,10 @@
-import useSWR, { Fetcher } from 'swr';
+import useSWR from 'swr';
 import { User } from '../types';
+import { API } from './api';
 
+// TODO: consolidate these
 export function useUser() {
-  const fetcher: Fetcher<User | null, string> = () => Promise.resolve(null);
-
-  const { data, error, isLoading } = useSWR(`/user`, fetcher);
+  const { data, error, isLoading } = useSWR(`/users`, async () => await API.user.get());
 
   return {
     user: data,
@@ -13,8 +13,8 @@ export function useUser() {
   };
 }
 
-export function useUserById(userId?: string) {
-  const { data, error, isLoading } = useSWR(`/user/${userId}`, () => Promise.resolve(lead));
+export function useUserById(userId?: number) {
+  const { data, error, isLoading } = useSWR(`/users/${userId}`, async () => await API.user.get(userId));
 
   return {
     user: data,
@@ -22,8 +22,6 @@ export function useUserById(userId?: string) {
     isError: error,
   };
 }
-
-// TODO: backend should not return privates of other users
 
 const lead: User = {
   role: 'LEADER',

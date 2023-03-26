@@ -1,5 +1,8 @@
 import { Button, ListItem, styled, TextField, Tooltip, Typography, Link } from '@mui/material';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { API } from '../hooks/api';
+import { useStoryDetail } from '../hooks/useStoryDetail';
 import { useUser } from '../hooks/useUser';
 
 const Item = styled(ListItem)`
@@ -45,9 +48,17 @@ export const LineForm = () => {
 };
 
 const FormFields = ({ disabled }: { disabled: boolean }) => {
+  const { storyId } = useParams();
+  const { mutate } = useStoryDetail(Number(storyId));
   const [newLine, setNewLine] = useState('');
   const tooLong = newLine.length > 140;
-  // TODO: handle post line
+
+  const handlePostLine = async () => {
+    await API.story.postLine(Number(storyId), newLine);
+    setNewLine('');
+    mutate();
+  };
+
   return (
     <FormContainer>
       <LineField
@@ -59,7 +70,7 @@ const FormFields = ({ disabled }: { disabled: boolean }) => {
         value={newLine}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewLine(e.target.value)}
       />
-      <Button variant="contained" disabled={disabled || tooLong}>
+      <Button variant="contained" disabled={disabled || tooLong} onClick={handlePostLine}>
         Post
       </Button>
     </FormContainer>

@@ -13,7 +13,7 @@ const StyledDivider = styled(Divider)`
 
 export const EditPanel = () => {
   const { profileId } = useParams();
-  const { user } = useUserById(profileId);
+  const { user } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

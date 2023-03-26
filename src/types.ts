@@ -4,6 +4,12 @@ export type UserPartial = {
   displayName: string;
 };
 
+export interface User extends UserPartial {
+  role: 'WRITER' | 'LEADER';
+  email: string;
+  password: string;
+}
+
 export type Line = {
   text: string;
   timestamp: Date;
@@ -36,9 +42,3 @@ export type Team = {
   score: number;
   leadId: number;
 };
-
-export interface User extends UserPartial {
-  role: 'WRITER' | 'LEADER';
-  email: string;
-  password: string;
-}

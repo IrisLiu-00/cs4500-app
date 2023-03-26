@@ -1,31 +1,23 @@
-import useSWR, { Fetcher } from 'swr';
+import useSWR from 'swr';
 import { StoryDetail } from '../types';
+import { API } from './api';
 
 type StoryResponse = {
   data: StoryDetail;
 };
 
-export function useStoryDetail(id: string = '0') {
+export function useStoryDetail(id: number) {
   // TODO: paging and limits, does this need to be SWR??
   // probably omit the extra fields from query
-  const { data, error, isLoading } = useSWR(`/details/${id}`, () => fetcher(id));
-  const story = data?.data;
-  if (story) {
-    story.imageUrl = `https://www.artic.edu/iiif/2/${story.image_id}/full/843,/0/default.jpg`;
-    story.lines = lines;
-  }
+  const { data, error, isLoading, mutate } = useSWR(`/stories/${id}`, async () => API.story.get(id));
 
   return {
-    story: story,
+    story: data,
     isLoading,
     isError: error,
+    mutate,
   };
 }
-
-const fetcher: Fetcher<StoryResponse, string> = (id: string) =>
-  fetch(
-    `https://api.artic.edu/api/v1/artworks/${id}?fields=id,image_id,thumbnail,title,artist_display,date_display`
-  ).then((r) => r.json());
 
 const lines = [
   {

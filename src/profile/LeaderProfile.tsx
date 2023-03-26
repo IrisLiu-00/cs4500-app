@@ -16,7 +16,7 @@ const TeamName = styled(Typography)`
 export const LeaderProfile = () => {
   const { user } = useUser();
   const { profileId } = useParams();
-  const { user: profile } = useUserById(profileId);
+  const { user: profile } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
   const team = useTeam(profile?.teamId);
   const members = [
     // TODO: grab using endpoint

@@ -28,7 +28,7 @@ const SaveButton = styled(Button)`
 
 export const EditTeamPanel = () => {
   const { profileId } = useParams();
-  const { user: profile } = useUserById(profileId);
+  const { user: profile } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
   const team = useTeam(profile?.teamId);
   const [description, setDescription] = useState('');
   const [color, setColor] = useState('');

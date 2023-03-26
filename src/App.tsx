@@ -16,6 +16,7 @@ import { SignupPage } from './login/SignupPage';
 const theme = createTheme();
 
 function App() {
+  console.log('here');
   return (
     <ThemeProvider theme={theme}>
       <Router>

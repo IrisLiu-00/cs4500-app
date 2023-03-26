@@ -2,7 +2,6 @@ import { Container, Divider, Grid, List, styled, Typography, useMediaQuery, useT
 import { useParams } from 'react-router-dom';
 import Nav from '../components/Nav';
 import { useStoryDetail } from '../hooks/useStoryDetail';
-import { useUser } from '../hooks/useUser';
 import { LineForm } from './LineForm';
 import { LineItem } from './LineItem';
 
@@ -20,7 +19,7 @@ export const DetailsPage = () => {
   const overMd = useMediaQuery(theme.breakpoints.up('md'));
 
   const { storyId } = useParams();
-  const { story, isError } = useStoryDetail(storyId);
+  const { story, isError } = useStoryDetail(Number(storyId));
 
   const Description = () => (
     <>

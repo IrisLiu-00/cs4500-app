@@ -16,6 +16,7 @@ const LineDetails = styled(Box)`
 const ProfileLink = styled(Button)`
   padding: 0px 8px;
   text-transform: none;
+  min-width: 0px;
   :hover {
     background: none;
   }
@@ -56,7 +57,7 @@ export const LineItem = ({ line }: { line: Line }) => {
             <ProfileLink href={`/profile/${line.user.id}`} sx={{ color: team?.color }}>
               {line.user.displayName}
             </ProfileLink>
-            - {line.timestamp.toLocaleDateString()}
+            - {new Date(line.timestamp).toLocaleDateString()}
           </LineDetails>
         </Stack>
         <Popover

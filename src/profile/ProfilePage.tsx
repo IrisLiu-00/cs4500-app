@@ -9,7 +9,7 @@ import { MemberProfile } from './MemberProfile';
 export const ProfilePage = () => {
   const { user } = useUser();
   const { profileId } = useParams();
-  const { user: profile, isError } = useUserById(profileId || user?.id.toString());
+  const { user: profile, isError } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
   return (
     <>
       <Nav />
