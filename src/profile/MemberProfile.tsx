@@ -1,7 +1,7 @@
 import { Link, Grid, Typography, styled } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { StoryCard } from '../components/StoryCard';
-import { useStories } from '../hooks/useStories';
+import { StoryQuery, useStories } from '../hooks/useStories';
 import { useTeam } from '../hooks/useTeams';
 import { useUser, useUserById } from '../hooks/useUser';
 import { EditPanel } from './EditPanel';
@@ -15,7 +15,7 @@ export const MemberProfile = () => {
   const { profileId } = useParams();
   const { user: profile } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
   const team = useTeam(profile?.teamId);
-  const { stories } = useStories('cats');
+  const { stories } = useStories(StoryQuery.RECENT_USER, user?.id);
 
   return (
     <Grid container spacing={4}>

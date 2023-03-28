@@ -1,28 +1,37 @@
-import useSWR, { Fetcher } from 'swr';
-import { StorySummary } from '../types';
+import useSWR from 'swr';
+import { API } from './api';
 
-type StoryResponse = {
-  data: StorySummary[];
-};
+export enum StoryQuery {
+  SEARCH,
+  FEATURE,
+  RECENT_GLOBAL,
+  RECENT_USER,
+  RECENT_TEAM,
+}
 
-export function useStories(query: string) {
-  // TODO: paging and limits, does this need to be SWR??
-  // probably omit the extra fields from query
-  const { data, error, isLoading } = useSWR(`/stories/${query}`, () => fetcher(query));
-  data?.data.forEach((art) => {
-    art.imageUrl = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
-    art.length = 22;
-    art.updatedAt = new Date(2023, 3, 21);
-  });
+export function useStories(queryType: StoryQuery, param?: string | number) {
+  // TODO: paging and limits
+  const { key, fetcher } = getQuery(queryType, param);
+  const { data, error, isLoading } = useSWR(key, fetcher);
 
   return {
-    stories: data?.data,
+    stories: data,
     isLoading,
     isError: error,
   };
 }
 
-const fetcher: Fetcher<StoryResponse, string> = (query: string | null) =>
-  fetch(
-    `https://api.artic.edu/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&fields=id,image_id,thumbnail,title,artist_display,date_display`
-  ).then((r) => r.json());
+function getQuery(queryType: StoryQuery, param?: string | number) {
+  switch (queryType) {
+    case StoryQuery.SEARCH:
+      return { key: `/stories/search/${param}`, fetcher: async () => API.story.getSearch(param as string) };
+    case StoryQuery.FEATURE:
+      return { key: `/stories/featured/team/${param}`, fetcher: async () => API.story.getSearch(param as string) };
+    case StoryQuery.RECENT_GLOBAL:
+      return { key: `/stories/recent/global`, fetcher: async () => API.story.getRecentGlobal() };
+    case StoryQuery.RECENT_USER:
+      return { key: `/stories/recent/user/${param}`, fetcher: async () => API.story.getRecentForUser(param as number) };
+    case StoryQuery.RECENT_TEAM:
+      return { key: `/stories/recent/team/${param}`, fetcher: async () => API.story.getRecentForTeam(param as number) };
+  }
+}

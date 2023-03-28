@@ -1,5 +1,8 @@
 import { styled, ListItem, Box, Button, Typography, Stack, Popover, Divider } from '@mui/material';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { API } from '../hooks/api';
+import { useStoryDetail } from '../hooks/useStoryDetail';
 import { useTeam } from '../hooks/useTeams';
 import { useUser } from '../hooks/useUser';
 import { Line } from '../types';
@@ -26,6 +29,9 @@ const PopupButtons = styled(Stack)`
 `;
 
 export const LineItem = ({ line }: { line: Line }) => {
+  const { storyId } = useParams();
+  const { mutate } = useStoryDetail(Number(storyId));
+
   const { user } = useUser();
   const team = useTeam(line.user.teamId);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -36,8 +42,9 @@ export const LineItem = ({ line }: { line: Line }) => {
   const handleClosePopover = () => {
     setAnchorEl(null);
   };
-  const handleDeleteLine = () => {
-    // TODO: call api to delete, mutate lines for story
+  const handleDeleteLine = async () => {
+    await API.story.deleteLine(Number(storyId), line.id);
+    await mutate();
     setAnchorEl(null);
   };
 

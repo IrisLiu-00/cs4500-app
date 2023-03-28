@@ -9,6 +9,7 @@ const StyledActionArea = styled(CardActionArea)`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 `;
 const StyledCardContent = styled(CardContent)`
   display: flex;
@@ -18,6 +19,7 @@ const StyledCardContent = styled(CardContent)`
 
 // TODO: display number of comments, latest activity time?
 export const StoryCard = ({ artInfo }: { artInfo: StorySummary }) => {
+  const date = new Date(artInfo.updatedAt).toLocaleDateString();
   return (
     <Card sx={{ height: '360px', display: 'flex', flexDirection: 'column' }}>
       <StyledActionArea href={`/details/${artInfo.id}`}>
@@ -28,7 +30,7 @@ export const StoryCard = ({ artInfo }: { artInfo: StorySummary }) => {
           </Typography>
           <div>
             <Typography>{artInfo.length} Lines</Typography>
-            <Typography>Updated {artInfo.updatedAt.toLocaleDateString()}</Typography>
+            <Typography>{artInfo.updatedAt ? `Updated ${date}` : ''}</Typography>
           </div>
         </StyledCardContent>
       </StyledActionArea>

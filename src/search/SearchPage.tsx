@@ -3,12 +3,12 @@ import { Container } from '@mui/system';
 import { useSearchParams } from 'react-router-dom';
 import Nav from '../components/Nav';
 import { StoryCard } from '../components/StoryCard';
-import { useStories } from '../hooks/useStories';
+import { StoryQuery, useStories } from '../hooks/useStories';
 
 export const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('criteria');
-  const { stories } = useStories(query || '');
+  const { stories } = useStories(StoryQuery.SEARCH, query || '');
 
   return (
     <>
