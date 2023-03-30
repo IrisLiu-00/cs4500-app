@@ -1,7 +1,7 @@
 import { Button, Container, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Nav from '../components/Nav';
-import { useUser, useUserById } from '../hooks/useUser';
+import { useUser } from '../hooks/useUser';
 import { LeaderProfile } from './LeaderProfile';
 import { MemberProfile } from './MemberProfile';
 
@@ -9,7 +9,7 @@ import { MemberProfile } from './MemberProfile';
 export const ProfilePage = () => {
   const { user } = useUser();
   const { profileId } = useParams();
-  const { user: profile, isError } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
+  const { user: profile, isError } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
   return (
     <>
       <Nav />
@@ -57,7 +57,6 @@ const LoginPrompt = () => {
   );
 };
 
-// TODO: test error if bad profileid
 /**
 Member: 
 - display name, team name (link to team profile), team points, # comments made?

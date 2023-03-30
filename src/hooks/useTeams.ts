@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import { Team } from '../types';
+import { API } from './api';
 
 export function useTeams() {
-  // TODO: paging and limits, does this need to be SWR??
-  // probably omit the extra fields from query
-  const { data, error, isLoading } = useSWR(`/teams`, fetcher);
+  const { data, error, isLoading } = useSWR(`/teams`, async () => await API.team.getAll());
 
   return {
     teams: data,

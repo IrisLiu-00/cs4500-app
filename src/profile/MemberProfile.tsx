@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { StoryCard } from '../components/StoryCard';
 import { StoryQuery, useStories } from '../hooks/useStories';
 import { useTeam } from '../hooks/useTeams';
-import { useUser, useUserById } from '../hooks/useUser';
+import { useUser } from '../hooks/useUser';
 import { EditPanel } from './EditPanel';
 
 const BoldText = styled('span')`
@@ -13,7 +13,7 @@ const BoldText = styled('span')`
 export const MemberProfile = () => {
   const { user } = useUser();
   const { profileId } = useParams();
-  const { user: profile } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
+  const { user: profile } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
   const team = useTeam(profile?.teamId);
   const { stories } = useStories(StoryQuery.RECENT_USER, user?.id);
 

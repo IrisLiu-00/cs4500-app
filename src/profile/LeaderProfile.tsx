@@ -1,7 +1,7 @@
 import { Box, Divider, Grid, List, ListItem, ListItemButton, Stack, styled, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useTeam } from '../hooks/useTeams';
-import { useUser, useUserById } from '../hooks/useUser';
+import { useUser } from '../hooks/useUser';
 import { EditPanel } from './EditPanel';
 import { EditTeamPanel } from './EditTeamPanel';
 import { ColorSwatch } from './Styled';
@@ -16,7 +16,7 @@ const TeamName = styled(Typography)`
 export const LeaderProfile = () => {
   const { user } = useUser();
   const { profileId } = useParams();
-  const { user: profile } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
+  const { user: profile } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
   const team = useTeam(profile?.teamId);
   const members = [
     // TODO: grab using endpoint

@@ -17,7 +17,6 @@ const StyledCardContent = styled(CardContent)`
   justify-content: space-between;
 `;
 
-// TODO: display number of comments, latest activity time?
 export const StoryCard = ({ artInfo }: { artInfo: StorySummary }) => {
   const date = new Date(artInfo.updatedAt).toLocaleDateString();
   return (

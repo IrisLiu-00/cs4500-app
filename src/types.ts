@@ -4,6 +4,12 @@ export type UserPartial = {
   displayName: string;
 };
 
+export interface UserPatch {
+  displayName: string;
+  email: string;
+  password: string;
+}
+
 export interface User extends UserPartial {
   role: 'WRITER' | 'LEADER';
   email: string;

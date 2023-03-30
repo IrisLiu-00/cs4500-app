@@ -1,5 +1,5 @@
 import Axios, { AxiosInstance, Method } from 'axios';
-import { Line, StoryDetail, StorySummary, User } from '../types';
+import { Line, StoryDetail, StorySummary, Team, User, UserPatch } from '../types';
 
 class APIClient {
   private axios: AxiosInstance;
@@ -17,6 +17,9 @@ class APIClient {
     get: async (userId?: number): Promise<User> => {
       return userId !== undefined ? this.req('GET', `/users/${userId}`) : this.req('GET', `/users`);
     },
+    patch: async (userId: number, body: UserPatch): Promise<UserPatch> => {
+      return this.req('PATCH', `/users/${userId}`, body);
+    },
   };
 
   story = {
@@ -30,6 +33,10 @@ class APIClient {
     postLine: async (storyId: number, lineText: string): Promise<Line> =>
       this.req('POST', `/stories/${storyId}`, { lineText }),
     deleteLine: async (storyId: number, lineId: number) => this.req('DELETE', `/stories/${storyId}/${lineId}`),
+  };
+
+  team = {
+    getAll: async (): Promise<Team[]> => this.req('GET', '/teams'),
   };
 }
 

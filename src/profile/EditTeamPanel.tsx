@@ -3,7 +3,7 @@ import { Box } from '@mui/system';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTeam } from '../hooks/useTeams';
-import { useUserById } from '../hooks/useUser';
+import { useUser } from '../hooks/useUser';
 import { ColorSwatch } from './Styled';
 
 const DescriptionField = styled(TextField)`
@@ -28,7 +28,7 @@ const SaveButton = styled(Button)`
 
 export const EditTeamPanel = () => {
   const { profileId } = useParams();
-  const { user: profile } = useUserById(profileId !== undefined ? parseInt(profileId) : undefined);
+  const { user: profile } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
   const team = useTeam(profile?.teamId);
   const [description, setDescription] = useState('');
   const [color, setColor] = useState('');
