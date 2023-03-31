@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { API } from '../hooks/api';
 import { useStoryDetail } from '../hooks/useStoryDetail';
-import { useTeam } from '../hooks/useTeams';
+import { useTeams } from '../hooks/useTeams';
 import { useUser } from '../hooks/useUser';
 import { Line } from '../types';
 
@@ -33,7 +33,8 @@ export const LineItem = ({ line }: { line: Line }) => {
   const { mutate } = useStoryDetail(Number(storyId));
 
   const { user } = useUser();
-  const team = useTeam(line.user.teamId);
+  const { teamsDict } = useTeams();
+  const team = teamsDict[line.user.teamId];
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLButtonElement>) => {

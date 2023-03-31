@@ -17,18 +17,7 @@ export const LeaderProfile = () => {
   const { user } = useUser();
   const { profileId } = useParams();
   const { user: profile } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
-  const team = useTeam(profile?.teamId);
-  const members = [
-    // TODO: grab using endpoint
-    {
-      id: 2,
-      displayName: 'userMember',
-    },
-    {
-      id: 3,
-      displayName: 'otherMember',
-    },
-  ];
+  const { team } = useTeam(profile?.teamId);
   const canEdit = user?.id === profile?.id;
 
   return (
@@ -60,7 +49,7 @@ export const LeaderProfile = () => {
         <Typography>Team Members</Typography>
         <List>
           <Divider />
-          {members.map((m) => (
+          {team?.members.map((m) => (
             <Box key={m.id}>
               <ListItem disablePadding>
                 <ListItemButton href={`/profile/${m.id}`}>{m.displayName}</ListItemButton>

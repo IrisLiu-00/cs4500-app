@@ -14,8 +14,8 @@ export const MemberProfile = () => {
   const { user } = useUser();
   const { profileId } = useParams();
   const { user: profile } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
-  const team = useTeam(profile?.teamId);
-  const { stories } = useStories(StoryQuery.RECENT_USER, user?.id);
+  const { team } = useTeam(profile?.teamId);
+  const { stories } = useStories(StoryQuery.RECENT_USER, profile?.id);
 
   return (
     <Grid container spacing={4}>

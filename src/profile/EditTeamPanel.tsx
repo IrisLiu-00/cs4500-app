@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useTeam } from '../hooks/useTeams';
 import { useUser } from '../hooks/useUser';
 import { ColorSwatch } from './Styled';
+import { API } from '../hooks/api';
 
 const DescriptionField = styled(TextField)`
   margin-bottom: 25px;
@@ -29,26 +30,34 @@ const SaveButton = styled(Button)`
 export const EditTeamPanel = () => {
   const { profileId } = useParams();
   const { user: profile } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
-  const team = useTeam(profile?.teamId);
+  const { team, mutate } = useTeam(profile?.teamId);
   const [description, setDescription] = useState('');
   const [color, setColor] = useState('');
+  const [colorError, setColorError] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   useEffect(() => {
     setDescription(team?.description || '');
     setColor(team?.color || '');
   }, [team]);
 
-  const handleFieldChange = (e: React.ChangeEvent<HTMLTextAreaElement>, setter: React.SetStateAction<any>) => {
+  const handleFieldChange = (e: React.ChangeEvent<HTMLTextAreaElement>, setter: (x: any) => any) => {
     setter(e.target.value);
     setHasChanges(true);
   };
 
-  const handleSave = () => {
-    // TODO: post request, mutate team
+  const colorSetter = (newClr: string) => {
+    setColor(newClr);
+    if (!newClr.match('^#(?:[0-9a-fA-F]{3}){1,2}$')) setColorError(true);
+    else setColorError(false);
+  };
+
+  const handleSave = async () => {
+    if (!team) return;
+    await API.team.patch(team.id, { description, color });
+    mutate();
     setHasChanges(false);
   };
 
-  // TODO: error checking on the request
   return (
     <Box>
       <Typography variant="h6" sx={{ mb: 2 }}>
@@ -66,10 +75,11 @@ export const EditTeamPanel = () => {
           label="Color"
           variant="outlined"
           value={color}
-          helperText="Enter a hex value"
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleFieldChange(e, setColor)}
+          error={colorError}
+          helperText={colorError ? 'Invalid hex value' : 'Enter a hex value'}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleFieldChange(e, colorSetter)}
         />
-        <SaveButton variant="contained" disabled={!hasChanges} onClick={handleSave}>
+        <SaveButton variant="contained" disabled={!hasChanges || colorError} onClick={handleSave}>
           Save
         </SaveButton>
       </Stack>

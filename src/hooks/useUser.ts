@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import { User } from '../types';
 import { API } from './api';
 
 export function useUser(userId?: number) {

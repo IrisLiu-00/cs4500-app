@@ -1,5 +1,5 @@
 import Axios, { AxiosInstance, Method } from 'axios';
-import { Line, StoryDetail, StorySummary, Team, User, UserPatch } from '../types';
+import { Line, StoryDetail, StorySummary, Team, TeamDetail, User, UserPatch, TeamPatch } from '../types';
 
 class APIClient {
   private axios: AxiosInstance;
@@ -37,6 +37,10 @@ class APIClient {
 
   team = {
     getAll: async (): Promise<Team[]> => this.req('GET', '/teams'),
+    get: async (teamId: string): Promise<TeamDetail> => this.req('GET', `/teams/${teamId}`),
+    patch: async (teamId: string, body: TeamPatch) => {
+      return this.req('PATCH', `/teams/${teamId}`, body);
+    },
   };
 }
 

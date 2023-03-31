@@ -49,3 +49,17 @@ export type Team = {
   score: number;
   leadId: number;
 };
+
+export type TeamDetail = {
+  id: string;
+  color: string;
+  description: string;
+  score: number;
+  leadId: number;
+  members: UserPartial[];
+};
+
+export type TeamPatch = {
+  description: string;
+  color: string;
+};
