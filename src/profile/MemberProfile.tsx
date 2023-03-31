@@ -5,6 +5,7 @@ import { StoryQuery, useStories } from '../hooks/useStories';
 import { useTeam } from '../hooks/useTeams';
 import { useUser } from '../hooks/useUser';
 import { EditPanel } from './EditPanel';
+import { StoryGrid } from './StoryGrid';
 
 const BoldText = styled('span')`
   font-weight: bold;
@@ -27,16 +28,7 @@ export const MemberProfile = () => {
         {user?.id === profile?.id && <EditPanel />}
       </Grid>
       <Grid item xs={12} md={9} sx={{ mt: 2 }}>
-        <Typography gutterBottom>
-          StoryLines <BoldText>{profile?.displayName}</BoldText> has added to:
-        </Typography>
-        <Grid container spacing={4}>
-          {stories?.map((artInfo) => (
-            <Grid item key={artInfo.id} xs={12} sm={6} md={4}>
-              <StoryCard artInfo={artInfo} />
-            </Grid>
-          ))}
-        </Grid>
+        <StoryGrid stories={stories} header={`StoryLines ${profile?.displayName} Has Added To`} />
       </Grid>
     </Grid>
   );

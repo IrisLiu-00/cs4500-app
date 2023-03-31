@@ -26,7 +26,10 @@ function getQuery(queryType: StoryQuery, param?: string | number) {
     case StoryQuery.SEARCH:
       return { key: `/stories/search/${param}`, fetcher: async () => API.story.getSearch(param as string) };
     case StoryQuery.FEATURE:
-      return { key: `/stories/featured/team/${param}`, fetcher: async () => API.story.getSearch(param as string) };
+      return {
+        key: `/stories/features/team/${param}`,
+        fetcher: async () => API.story.getFeaturesForTeam(param as string),
+      };
     case StoryQuery.RECENT_GLOBAL:
       return { key: `/stories/recent/global`, fetcher: async () => API.story.getRecentGlobal() };
     case StoryQuery.RECENT_USER:
@@ -35,6 +38,6 @@ function getQuery(queryType: StoryQuery, param?: string | number) {
         fetcher: async () => (param === undefined ? undefined : API.story.getRecentForUser(param as number)),
       };
     case StoryQuery.RECENT_TEAM:
-      return { key: `/stories/recent/team/${param}`, fetcher: async () => API.story.getRecentForTeam(param as number) };
+      return { key: `/stories/recent/team/${param}`, fetcher: async () => API.story.getRecentForTeam(param as string) };
   }
 }

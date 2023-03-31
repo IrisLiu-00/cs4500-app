@@ -27,12 +27,16 @@ class APIClient {
     getRecentGlobal: async (): Promise<StorySummary[]> => this.req('GET', `/stories/recent/global`),
     getRecentForUser: async (userId: number): Promise<StorySummary[]> =>
       this.req('GET', `/stories/recent/user/${userId}`),
-    getRecentForTeam: async (teamId: number): Promise<StorySummary[]> =>
+    getRecentForTeam: async (teamId: string): Promise<StorySummary[]> =>
       this.req('GET', `/stories/recent/team/${teamId}`),
+    getFeaturesForTeam: async (teamId: string): Promise<StorySummary[]> =>
+      this.req('GET', `/stories/features/team/${teamId}`),
     get: async (storyId: number): Promise<StoryDetail> => this.req('GET', `/stories/${storyId}`),
     postLine: async (storyId: number, lineText: string): Promise<Line> =>
       this.req('POST', `/stories/${storyId}`, { lineText }),
     deleteLine: async (storyId: number, lineId: number) => this.req('DELETE', `/stories/${storyId}/${lineId}`),
+    toggleFeature: async (storyId: number, teamId: string) =>
+      this.req('PATCH', `/stories/${storyId}/features`, { teamId }),
   };
 
   team = {

@@ -4,6 +4,7 @@ import Nav from '../components/Nav';
 import { useStoryDetail } from '../hooks/useStoryDetail';
 import { LineForm } from './LineForm';
 import { LineItem } from './LineItem';
+import { Description } from './StoryDescription';
 
 const Image = styled('img')`
   margin-bottom: 20px;
@@ -21,16 +22,6 @@ export const DetailsPage = () => {
   const { storyId } = useParams();
   const { story, isError } = useStoryDetail(Number(storyId));
 
-  const Description = () => (
-    <>
-      <Typography variant="h5" gutterBottom>
-        {story?.title}
-      </Typography>
-      <Typography gutterBottom>{story?.artist_display}</Typography>
-      <Typography>{story?.date_display}</Typography>
-    </>
-  );
-  // TODO: test error display
   return (
     <>
       <Nav />

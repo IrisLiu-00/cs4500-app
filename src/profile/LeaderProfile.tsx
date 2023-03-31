@@ -4,7 +4,8 @@ import { useTeam } from '../hooks/useTeams';
 import { useUser } from '../hooks/useUser';
 import { EditPanel } from './EditPanel';
 import { EditTeamPanel } from './EditTeamPanel';
-import { ColorSwatch } from './Styled';
+import { StoryQuery, useStories } from '../hooks/useStories';
+import { StoryGrid } from './StoryGrid';
 const BoldText = styled('span')`
   font-weight: bold;
 `;
@@ -18,6 +19,7 @@ export const LeaderProfile = () => {
   const { profileId } = useParams();
   const { user: profile } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
   const { team } = useTeam(profile?.teamId);
+  const { stories } = useStories(StoryQuery.FEATURE, profile?.teamId);
   const canEdit = user?.id === profile?.id;
 
   return (
@@ -40,13 +42,15 @@ export const LeaderProfile = () => {
         ) : (
           <Stack>
             <Typography variant="h6" gutterBottom>
-              About this team:
+              About this team
             </Typography>
             <Typography>{team?.description}</Typography>
-            <ColorSwatch style={{ backgroundColor: team?.color }} />
           </Stack>
         )}
-        <Typography>Team Members</Typography>
+        <Divider sx={{ my: 2 }} />
+
+        <StoryGrid stories={stories} header={'Featured stories'} />
+        <Typography variant="h6">Team Members</Typography>
         <List>
           <Divider />
           {team?.members.map((m) => (

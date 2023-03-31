@@ -1,10 +1,9 @@
-import { Stack, Button, styled, TextField, Typography } from '@mui/material';
+import { Stack, Button, styled, TextField, Typography, Divider } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTeam } from '../hooks/useTeams';
 import { useUser } from '../hooks/useUser';
-import { ColorSwatch } from './Styled';
 import { API } from '../hooks/api';
 
 const DescriptionField = styled(TextField)`
@@ -61,7 +60,7 @@ export const EditTeamPanel = () => {
   return (
     <Box>
       <Typography variant="h6" sx={{ mb: 2 }}>
-        About this team:
+        About this team
       </Typography>
       <DescriptionField
         label="Description"
@@ -83,8 +82,6 @@ export const EditTeamPanel = () => {
           Save
         </SaveButton>
       </Stack>
-
-      <ColorSwatch style={{ backgroundColor: team?.color }} />
     </Box>
   );
 };

@@ -40,6 +40,7 @@ export interface StoryDetail extends StoryPartial {
   artist_display: string;
   date_display: string;
   lines: Line[];
+  featured: string[];
 }
 
 export type Team = {
