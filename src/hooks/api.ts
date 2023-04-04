@@ -1,11 +1,11 @@
 import Axios, { AxiosInstance, Method } from 'axios';
-import { Line, StoryDetail, StorySummary, Team, TeamDetail, User, UserPatch, TeamPatch } from '../types';
+import { Line, StoryDetail, StorySummary, Team, TeamDetail, User, UserPatch, TeamPatch, SignupBody } from '../types';
 
 class APIClient {
   private axios: AxiosInstance;
 
   constructor(baseURL = '') {
-    this.axios = Axios.create({ baseURL: baseURL });
+    this.axios = Axios.create({ baseURL: baseURL, withCredentials: true });
   }
 
   private async req<T>(method: Method, url: string, body?: any, params?: any): Promise<T> {
@@ -20,6 +20,10 @@ class APIClient {
     patch: async (userId: number, body: UserPatch): Promise<UserPatch> => {
       return this.req('PATCH', `/users/${userId}`, body);
     },
+    signup: async (body: SignupBody): Promise<User> => this.req('POST', '/users/signup', body),
+    login: async (body: { username: string; password: string }): Promise<User> =>
+      this.req('POST', '/users/login', body),
+    logout: async (): Promise<User> => this.req('POST', '/users/logout'),
   };
 
   story = {

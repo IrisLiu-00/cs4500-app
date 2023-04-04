@@ -18,6 +18,8 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useState } from 'react';
 import { useTeams } from '../hooks/useTeams';
+import { API } from '../hooks/api';
+import { useNavigate } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -34,28 +36,46 @@ const TeamList = styled(List)`
   border: rgba(0, 0, 0, 0.12) solid thin;
   max-height: 250px;
   overflow-y: scroll;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   padding: 0;
 `;
 
 export const SignupPage = () => {
   const [formMode, setFormMode] = useState<string | null>(null);
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
   const { teams } = useTeams();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      username: data.get('username'),
-      password: data.get('password'),
-      role: data.get('roleRadio'),
-      teamName: data.get('teamName'),
-      teamDesc: data.get('teamDesc'),
-      teamColor: data.get('teamColor'),
-      selectedTeam: selectedTeam,
-    });
+    const commonFields = ['email', 'password', 'roleRadio', 'username'];
+    const leaderFields = ['teamName', 'teamDesc', 'teamColor'];
+    const memberFields = ['selectedTeam'];
+    if (
+      commonFields.some((f) => !data.has(f)) ||
+      leaderFields.some((f) => !data.has(f) && memberFields.some((f) => !data.has(f)))
+    ) {
+      setError('Please fill in all fields');
+      return;
+    }
+    try {
+      await API.user.signup({
+        email: data.get('email') as string,
+        username: data.get('username') as string,
+        password: data.get('password') as string,
+        // @ts-expect-error need to cast to userrole
+        role: data.get('roleRadio') as string,
+        teamName: data.get('teamName') as string,
+        teamDesc: data.get('teamDesc') as string,
+        teamColor: data.get('teamColor') as string,
+        selectedTeam: selectedTeam!,
+      });
+      navigate('/');
+    } catch (err: any) {
+      setError(err.response?.data);
+    }
   };
 
   return (
@@ -100,7 +120,13 @@ export const SignupPage = () => {
             </TeamList>
           )}
 
-          <Button type="submit" fullWidth variant="contained" sx={{ mb: 2 }}>
+          {error && (
+            <Typography variant="caption" color="error.main" gutterBottom>
+              Error: {error}
+            </Typography>
+          )}
+
+          <Button type="submit" fullWidth variant="contained" sx={{ mb: 2, mt: 1 }}>
             Sign Up
           </Button>
           <Link href="/login" variant="body2">

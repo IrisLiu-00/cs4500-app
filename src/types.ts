@@ -10,6 +10,17 @@ export interface UserPatch {
   password: string;
 }
 
+export interface SignupBody {
+  displayName: string;
+  email: string;
+  password: string;
+  role: 'WRITER' | 'LEADER';
+  selectedTeam?: string;
+  teamName?: string;
+  teamDesc?: string;
+  teamColor?: string;
+}
+
 export interface User extends UserPartial {
   role: 'WRITER' | 'LEADER';
   email: string;

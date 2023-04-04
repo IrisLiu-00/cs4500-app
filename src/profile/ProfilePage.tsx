@@ -4,12 +4,18 @@ import Nav from '../components/Nav';
 import { useUser } from '../hooks/useUser';
 import { LeaderProfile } from './LeaderProfile';
 import { MemberProfile } from './MemberProfile';
+import { API } from '../hooks/api';
 
-// TODO: logout behavior
 export const ProfilePage = () => {
-  const { user } = useUser();
+  const { user, mutate } = useUser();
   const { profileId } = useParams();
   const { user: profile, isError } = useUser(profileId !== undefined ? parseInt(profileId) : undefined);
+
+  const handleLogout = async () => {
+    await API.user.logout();
+    mutate();
+  };
+
   return (
     <>
       <Nav />
@@ -23,7 +29,7 @@ export const ProfilePage = () => {
                 <Typography variant="h4" gutterBottom>
                   Profile
                 </Typography>
-                {user?.id === profile?.id && <Button>Log Out</Button>}
+                {user?.id === profile?.id && <Button onClick={handleLogout}>Log Out</Button>}
               </Stack>
               {!isError ? (
                 profile?.role === 'LEADER' ? (

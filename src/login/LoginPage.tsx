@@ -1,5 +1,8 @@
 import { Typography, Container, Avatar, styled, Box, TextField, Button, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { API } from '../hooks/api';
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -11,13 +14,24 @@ const Field = styled(TextField)`
 `;
 
 export const LoginPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    if (!data.has('username') || !data.has('password')) {
+      setError('Please fill in all fields');
+    }
+    try {
+      await API.user.login({
+        username: data.get('username') as string,
+        password: data.get('password') as string,
+      });
+      navigate('/');
+    } catch (err: any) {
+      setError(err.response?.data);
+    }
   };
 
   return (
@@ -30,9 +44,15 @@ export const LoginPage = () => {
           Sign in to StoryLine
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
-          <Field required fullWidth id="email" label="Email" name="email" type="email" />
+          <Field required fullWidth id="username" label="Username" name="username" type="username" />
           <Field required fullWidth id="password" label="Password" name="password" type="password" />
-          <Button type="submit" fullWidth variant="contained" sx={{ mb: 2 }}>
+
+          {error && (
+            <Typography variant="caption" color="error.main" gutterBottom>
+              Error: {error}
+            </Typography>
+          )}
+          <Button type="submit" fullWidth variant="contained" sx={{ mb: 2, mt: 1 }}>
             Log In
           </Button>
 
