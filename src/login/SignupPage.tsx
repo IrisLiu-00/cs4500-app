@@ -31,6 +31,7 @@ const Field = styled(TextField)`
 `;
 const TeamItem = styled(ListItem)`
   border-bottom: rgba(0, 0, 0, 0.12) solid thin;
+  cursor: pointer;
 `;
 const TeamList = styled(List)`
   border: rgba(0, 0, 0, 0.12) solid thin;
@@ -52,11 +53,7 @@ export const SignupPage = () => {
     const data = new FormData(event.currentTarget);
     const commonFields = ['email', 'password', 'roleRadio', 'username'];
     const leaderFields = ['teamName', 'teamDesc', 'teamColor'];
-    const memberFields = ['selectedTeam'];
-    if (
-      commonFields.some((f) => !data.has(f)) ||
-      leaderFields.some((f) => !data.has(f) && memberFields.some((f) => !data.has(f)))
-    ) {
+    if (commonFields.some((f) => !data.has(f)) || (leaderFields.some((f) => !data.has(f)) && selectedTeam === null)) {
       setError('Please fill in all fields');
       return;
     }
