@@ -53,7 +53,8 @@ export const SignupPage = () => {
     const data = new FormData(event.currentTarget);
     const commonFields = ['email', 'password', 'roleRadio', 'username'];
     const leaderFields = ['teamName', 'teamDesc', 'teamColor'];
-    if (commonFields.some((f) => !data.has(f)) || (leaderFields.some((f) => !data.has(f)) && selectedTeam === null)) {
+
+    if (commonFields.some((f) => !data.get(f)) || (leaderFields.some((f) => !data.get(f)) && selectedTeam === null)) {
       setError('Please fill in all fields');
       return;
     }

@@ -5,10 +5,11 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { AccountCircle, LibraryBooks, Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { Input, InputAdornment, useMediaQuery } from '@mui/material';
+import { Avatar, Input, InputAdornment, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useUser } from '../hooks/useUser';
 
 const StyledToolbar = styled(Toolbar)`
   justify-content: space-between;
@@ -42,6 +43,7 @@ const StyledAdornment = styled(InputAdornment)`
 
 function Nav() {
   const navigate = useNavigate();
+  const { user } = useUser();
   const [searchString, setSearchString] = useState('');
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
@@ -85,7 +87,7 @@ function Nav() {
             aria-haspopup="true"
             color="inherit"
           >
-            <AccountCircle fontSize="large" />
+            {user ? <Avatar>{user.displayName[0].toUpperCase()}</Avatar> : <AccountCircle fontSize="large" />}
           </IconButton>
         </Tooltip>
       </StyledToolbar>
